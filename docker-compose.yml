@@ -2,5 +2,6 @@ version: '3.7'
 services:
   helper:
     build: .
+    image: helper:latest
     volumes:
       - /Users/${USER}:/root
