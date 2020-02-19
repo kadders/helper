@@ -13,7 +13,6 @@ RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker
 
 # Set to python3 by default in system
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
-# RUN pip3 install awscli
 # RUN pip install dbus-python aws-okta-keyman
 
 # Installing git-crypt
@@ -24,6 +23,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 # Pull down packer
 RUN wget https://releases.hashicorp.com/packer/1.5.4/packer_1.5.4_linux_amd64.zip; unzip packer*.zip; mv packer /usr/bin
+
+# Installing Kubectl
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list; apt-get update; apt-get install -y kubectl
 
 # get the command-line up and running
 CMD ["/bin/bash"]
