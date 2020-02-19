@@ -1,0 +1,6 @@
+version: '3.7'
+services:
+  work-container:
+    build: .
+    volumes:
+      - /Users/${USER}:/root
