@@ -13,7 +13,8 @@ There are some volumes that need to be mapped, which we use the docker-compose f
 
 `docker-compose run helper /bin/bash`
 
-There is also a wrapper
+There is also a wrapper:
+`./startup`
 
 ## Validation
 You should be able to run the following command to be able to verify user mapping.
