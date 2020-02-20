@@ -21,15 +21,18 @@ RUN apt-get install git-crypt -y
 # Installer for AWSCLIv2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"; unzip awscliv2.zip; ./aws/install
 
-# Pull down packer
-RUN wget https://releases.hashicorp.com/packer/1.5.4/packer_1.5.4_linux_amd64.zip; unzip packer*.zip; mv packer /usr/bin
-
 # Installing Kubectl
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list; apt-get update; apt-get install -y kubectl
 
+### Versions for packages ###
 # Set TF Version
 ENV tf_ver="0.11.15-oci"
+# Set Packer version
+ENV packer_ver="1.5.4"
+### End Versions Block ###
 
+# Pull down packer
+RUN wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip; unzip packer*.zip; mv packer /usr/bin
 # Install TF
 RUN wget https://releases.hashicorp.com/terraform/${tf_ver}/terraform_${tf_ver}_linux_amd64.zip; unzip terraform*.zip; mv terraform /usr/bin
 
