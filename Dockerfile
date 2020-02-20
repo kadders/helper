@@ -27,5 +27,8 @@ RUN wget https://releases.hashicorp.com/packer/1.5.4/packer_1.5.4_linux_amd64.zi
 # Installing Kubectl
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list; apt-get update; apt-get install -y kubectl
 
+# Install TF
+RUN wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip; unzip terraform*.zip; mv terraform /usr/bin
+
 # get the command-line up and running
 CMD ["/bin/bash"]
