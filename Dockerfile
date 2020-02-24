@@ -1,28 +1,23 @@
 FROM ubuntu:18.04
 
 # Baseline package install
-RUN apt-get update; apt-get install python python3 python3-venv python3-pip python-pip curl unzip wget packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
+RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq -y
 
 # Install docker things
 # Add GPG key
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 # Add in repo
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-# update and pull docker
-RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose -y
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list;
+# update and pull docker, git-crypt kubectl
+RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose git-crypt kubectl -y
 
 # Set to python3 by default in system
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
-# RUN pip install dbus-python aws-okta-keyman
-
-# Installing git-crypt
-RUN apt-get install git-crypt -y
+# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+RUN pip install aws-okta-keyman
 
 # Installer for AWSCLIv2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"; unzip awscliv2.zip; ./aws/install
-
-# Installing Kubectl
-RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list; apt-get update; apt-get install -y kubectl
 
 ### Versions for packages ###
 # Set TF Version
@@ -35,6 +30,11 @@ ENV packer_ver="1.5.4"
 RUN wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip; unzip packer*.zip; mv packer /usr/bin
 # Install TF
 RUN wget https://releases.hashicorp.com/terraform/${tf_ver}/terraform_${tf_ver}_linux_amd64.zip; unzip terraform*.zip; mv terraform /usr/bin
+
+# Pull down kubeps1 things
+RUN git clone https://github.com/jonmosco/kube-ps1.git /usr/local/kube-ps1
+# Also get the aws-iam-authenticator
+RUN curl -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator; chmod +x /usr/local/bin/aws-iam-authenticator
 
 # get the command-line up and running
 CMD ["/bin/bash"]
