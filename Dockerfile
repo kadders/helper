@@ -31,10 +31,15 @@ RUN wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver
 # Install TF
 RUN wget https://releases.hashicorp.com/terraform/${tf_ver}/terraform_${tf_ver}_linux_amd64.zip; unzip terraform*.zip; mv terraform /usr/bin
 
-# Pull down kubeps1 things
-RUN git clone https://github.com/jonmosco/kube-ps1.git /usr/local/kube-ps1
+# Create add-ons dir for things
+RUN mkdir -p /usr/local/add-ons/
+# Pull down kube ps1 things
+RUN git clone https://github.com/jonmosco/kube-ps1.git /usr/local/add-ons/kube-ps1
+RUN git clone https://github.com/git/git.git /usr/local/add-ons/git-core; cp /usr/local/add-ons/git-core/contrib/completion/git-prompt.sh /usr/local/add-ons/git-prompt.sh
 # Also get the aws-iam-authenticator
 RUN curl -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator; chmod +x /usr/local/bin/aws-iam-authenticator
+
+COPY bash_profile /usr/local/add-ons/bash_profile
 
 # get the command-line up and running
 CMD ["/bin/bash"]
