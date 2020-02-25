@@ -22,4 +22,4 @@ if [[ -f /usr/local/add-ons/git-prompt.sh ]]
 then
 	source /usr/local/add-ons/git-prompt.sh
 fi
-PS1='[\u@\h \W $(__git_ps1) $(kube_ps1)]\$ '
+PS1='[\u@\h \W ]\n$(__git_ps1) $(kube_ps1) \$ '
