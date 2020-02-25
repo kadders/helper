@@ -7,10 +7,12 @@ The idea is to make things a little more cross-platform friendly.
 ## Functional Additions
 There are some additions to the PS1 prompt that need to be addressed in your .bashrc file
 
-`if [[ -f /usr/local/add-ons/bash_profile ]]
+```
+if [[ -f /usr/local/add-ons/bash_profile ]]
 then
 	source /usr/local/add-ons/bash_profile
-fi`
+fi
+```
 
 ## Usage
 Initial build of the container (for reuse):
