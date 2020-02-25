@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   helper:
+    hostname: helper
     build: .
     image: helper:latest
     volumes:
