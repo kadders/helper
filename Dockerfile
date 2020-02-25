@@ -14,7 +14,9 @@ RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker
 
 # Set to python3 by default in system
 # RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+# Install okta-keyman adn jinja2
 RUN pip install aws-okta-keyman
+RUN pip3 install jinja2
 
 # Installer for AWSCLIv2
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"; unzip awscliv2.zip; ./aws/install
