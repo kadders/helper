@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 # Baseline package install
-RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq dnsutils -y
+RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils -y
 
 # Install docker things
 # Add GPG key
