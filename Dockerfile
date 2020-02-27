@@ -1,19 +1,17 @@
 FROM ubuntu:18.04
 
 # Baseline package install
-RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man -y
+RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man golang -y
 
 # Install docker things
 # Add GPG key
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-# Add in repo
+# Add in repo for docker and kubectl
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list;
 # update and pull docker, git-crypt kubectl
 RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose git-crypt kubectl -y
 
-# Set to python3 by default in system
-# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
 # Install okta-keyman adn jinja2
 RUN pip install aws-okta-keyman
 # Jinja2 for MySQL things
@@ -24,7 +22,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 ### Versions for packages ###
 # Set TF Version
-ENV tf_ver="0.11.15-oci"
+ENV tf_ver="0.12.21"
 # Set Packer version
 ENV packer_ver="1.5.4"
 ### End Versions Block ###
