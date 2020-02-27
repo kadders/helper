@@ -1,12 +1,4 @@
 # BASH Aliases
-alias test-token="AWS_PROFILE=test aws-iam-authenticator -i test-kubernetes1 token | jq '.status.token'"
-alias dev-token="AWS_PROFILE=dev aws-iam-authenticator -i dev-kubernetes1 token | jq '.status.token'"
-alias stage-token="AWS_PROFILE=dev aws-iam-authenticator -i stage-kubernetes1 token | jq '.status.token'"
-alias prod-token="AWS_PROFILE=prod aws-iam-authenticator -i prod-kubernetes1 token | jq '.status.token'"
-alias ktest="kubectl config use-context test-kubernetes1"
-alias kdev="kubectl config use-context dev-kubernetes1"
-alias kstage="kubectl config use-context stage-kubernetes1"
-alias kprod="kubectl config use-context prod-kubernetes1"
 alias kget="kubectl get"
 alias kgetall="kubectl get all"
 alias kexec="kubectl exec -it"
