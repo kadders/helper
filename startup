@@ -2,7 +2,10 @@
 
 # This is just a wrapper to do all the things
 # Build the initial container
-docker build -t helper .
+if [[ ${1} != "-n" ]]
+then
+	docker build -t helper .
+fi
 # Let's then get this party started
 # This will drop you into bash on the container
 docker-compose run helper /bin/bash
