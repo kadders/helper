@@ -9,8 +9,9 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 # Add in repo for docker and kubectl
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list;
+RUN apt-add-repository --yes --update ppa:ansible/ansible
 # update and pull docker, git-crypt kubectl
-RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose git-crypt kubectl -y
+RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose git-crypt kubectl ansible -y
 
 # Install okta-keyman adn jinja2
 RUN pip install aws-okta-keyman
