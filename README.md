@@ -4,6 +4,11 @@
 This is just a baseline container for working with things.
 The idea is to make things a little more cross-platform friendly.
 
+## To Dos
+[] Add in Windows bootstrapping support
+[] Update to 24.04 (when available)
+[] Add in more things to do
+
 ## Functional Additions
 There are some additions to the PS1 prompt that need to be addressed in your .bashrc file
 
