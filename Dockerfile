@@ -1,45 +1,30 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 # Baseline package install
-RUN apt-get update; apt-get install virtualenv libdbus-glib-1-dev build-essential python python3 python3-venv groff vim python3-pip python-pip curl unzip zip wget pkg-config packer apt-transport-https ca-certificates curl gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man golang sqlite3 -y
+RUN apt-get update; apt-get install git libdbus-glib-1-dev build-essential python3 python3-venv groff vim python3-pip curl unzip zip wget pkg-config packer apt-transport-https ca-certificates  gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man-db nodejs golang sqlite3 -y
 
 # Install docker things
-# Add GPG key
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-# Add in repo for docker and kubectl
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -; echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list;
-RUN apt-add-repository --yes --update ppa:ansible/ansible
-# update and pull docker, git-crypt kubectl
-RUN apt-get update; apt-get install docker-ce docker-ce-cli containerd.io docker-compose git-crypt kubectl ansible -y
+# Get kubectl keyring
+RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+# Install 1.29 packages
+RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+# Update and install
+RUN apt-get update
+RUN apt-get install -y kubectl
 
-# Install okta-keyman adn jinja2
-RUN pip install aws-okta-keyman
-# Jinja2 for MySQL things
-RUN pip3 install jinja2
-
-# Installer for AWSCLIv2
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"; unzip awscliv2.zip; ./aws/install
-
-### Versions for packages ###
-# Set TF Version
-ENV tf_ver="0.12.21"
-# Set Packer version
-ENV packer_ver="1.5.4"
-### End Versions Block ###
-
-# Pull down packer
-RUN wget https://releases.hashicorp.com/packer/${packer_ver}/packer_${packer_ver}_linux_amd64.zip; unzip packer*.zip; mv packer /usr/bin
-# Install TF
-RUN wget https://releases.hashicorp.com/terraform/${tf_ver}/terraform_${tf_ver}_linux_amd64.zip; unzip terraform*.zip; mv terraform /usr/bin
+# Add in some python3 libraries for fun
+RUN pip3 install boto3 numpy requests
 
 # Create add-ons dir for things
 RUN mkdir -p /usr/local/add-ons/
 # Pull down kube ps1 things
 RUN git clone https://github.com/jonmosco/kube-ps1.git /usr/local/add-ons/kube-ps1
-RUN git clone https://github.com/git/git.git /usr/local/add-ons/git-core; cp /usr/local/add-ons/git-core/contrib/completion/git-prompt.sh /usr/local/add-ons/git-prompt.sh
-# Also get the aws-iam-authenticator
-RUN curl -o /usr/local/bin/aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator; chmod +x /usr/local/bin/aws-iam-authenticator
+# RUN git clone https://github.com/git/git.git /usr/local/add-ons/git-core; cp /usr/local/add-ons/git-core/contrib/completion/git-prompt.sh /usr/local/add-ons/git-prompt.sh
+RUN wget https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh -O /usr/local/add-ons/git-prompt.sh
+RUN wget https://github.com/git/git/blob/master/contrib/completion/git-completion.bash -O /usr/local/add-ons/git-completion.bash
+
+# Add in pytorch for cpu
+# RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
 COPY bash_profile /usr/local/add-ons/bash_profile
 

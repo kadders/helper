@@ -4,6 +4,12 @@
 This is just a baseline container for working with things.
 The idea is to make things a little more cross-platform friendly.
 
+## To Dos
+- [ ] Add in Windows bootstrapping support
+- [ ] Update to 24.04 (when available)
+- [ ] Update docker-compose files for host checking in `startup`
+- [ ] Add in more things to do
+
 ## Functional Additions
 There are some additions to the PS1 prompt that need to be addressed in your .bashrc file
 
@@ -23,7 +29,7 @@ There are some volumes that need to be mapped, which we use the docker-compose f
 
 `docker-compose run helper /bin/bash`
 
-There is also a wrapper:
+There is also a wrapper (this currently works in MacOS/Linux.... mostly):
 `./startup`
 
 ## Validation
