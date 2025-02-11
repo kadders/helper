@@ -1,19 +1,19 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Baseline package install
 RUN apt-get update; apt-get install git libdbus-glib-1-dev build-essential python3 python3-venv groff vim python3-pip curl unzip zip wget pkg-config packer apt-transport-https ca-certificates  gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man-db nodejs golang sqlite3 -y
 
 # Install docker things
 # Get kubectl keyring
-RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 # Install 1.29 packages
-RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
 # Update and install
 RUN apt-get update
 RUN apt-get install -y kubectl
 
 # Add in some python3 libraries for fun
-RUN pip3 install boto3 numpy requests
+RUN pat install python3-boto3 python3-numpy python3-requests -y
 
 # Create add-ons dir for things
 RUN mkdir -p /usr/local/add-ons/
@@ -27,6 +27,8 @@ RUN wget https://github.com/git/git/blob/master/contrib/completion/git-completio
 # RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
 COPY bash_profile /usr/local/add-ons/bash_profile
+
+RUN mkdir -p /tools
 
 # get the command-line up and running
 CMD ["/bin/bash"]
