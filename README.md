@@ -6,7 +6,7 @@ The idea is to make things a little more cross-platform friendly.
 
 ## To Dos
 - [ ] Add in Windows bootstrapping support
-- [ ] Update to 24.04 (when available)
+- [X] Update to 24.04 (when available)
 - [ ] Update docker-compose files for host checking in `startup`
 - [ ] Add in more things to do
 
