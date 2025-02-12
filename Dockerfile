@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 # Baseline package install
-RUN apt-get update; apt-get install git libdbus-glib-1-dev build-essential python3 python3-venv groff vim python3-pip curl unzip zip wget pkg-config packer apt-transport-https ca-certificates  gnupg-agent software-properties-common xclip xsel jq dnsutils bsdmainutils man-db nodejs golang sqlite3 -y
+RUN apt update; apt install vim groff curl ca-certificates xclip xsel jq golang zip wget pkg-config apt-transport-https gnupg-agent virtualenv python3-pip python3-venv git bsdmainutils man nodejs cmake software-properties-common libdbus-glib-1-dev build-essential man-db sqlite3 python3-boto3 python3-numpy python3-requests -y
 
 # Install docker things
 # Get kubectl keyring
@@ -11,9 +11,6 @@ RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://p
 # Update and install
 RUN apt-get update
 RUN apt-get install -y kubectl
-
-# Add in some python3 libraries for fun
-RUN pat install python3-boto3 python3-numpy python3-requests -y
 
 # Create add-ons dir for things
 RUN mkdir -p /usr/local/add-ons/
