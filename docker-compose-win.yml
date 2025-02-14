@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  helper:
+    hostname: helper
+    build: .
+    tty: true
+    image: helper:latest
+    volumes:
+      - C:/Users/${Env:USERNAME}:/root
+      - ./storage:/tools

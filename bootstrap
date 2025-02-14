@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ ${1} != "-n" ]]; then
+then
+    docker build -t helper:latest .
+fi
+
+mkdir -p storage
+
+docker-compose run -t helper /bin/bash
